@@ -13,6 +13,7 @@ import { FaGem, FaGithub, FaRegLaughWink } from 'react-icons/fa';
 import sidebarBg from '../../assets/bg2.jpg';
 import { DiReact } from 'react-icons/di'
 import { MdDashboard } from 'react-icons/md'
+import { Link } from 'react-router-dom';
 const SideBar = (props) => {
     const { image, collapsed, toggled, handleToggleSidebar } = props;
     return (
@@ -49,13 +50,17 @@ const SideBar = (props) => {
                         // suffix={<span className="badge red">New</span>}
                         >
                             dashboard
+                            <Link to="/Admins" />
                         </MenuItem>
                         <SubMenu
                             title={'Features'}
                             // suffix={<span className="badge yellow">3</span>}
                             icon={<FaGem />}
                         >
-                            <MenuItem> Quản lý users</MenuItem>
+                            <MenuItem>
+                                Quản lý users
+                                <Link to="/Admins/manage-user" />
+                            </MenuItem>
                             <MenuItem> Quản lý bài Quiz</MenuItem>
                             <MenuItem> Quản lý câu hỏi</MenuItem>
                         </SubMenu>

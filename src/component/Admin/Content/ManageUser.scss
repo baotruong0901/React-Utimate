@@ -1,0 +1,35 @@
+.modal-add-user{
+    .upload-file{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 5px;
+        background:whitesmoke;
+        width: fit-content;
+        padding:2px 8px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all .25s;
+        margin-bottom: 10px;
+        &:hover{
+            background:#eeee;
+        }
+    }
+    .preview{
+        height: 120px;
+        border: 1px dashed #d3d3d3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &-image{
+            height: 100%;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        span{
+            color: #d3d3d3;
+        }
+    }
+}
