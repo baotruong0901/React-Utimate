@@ -1,0 +1,117 @@
+.register-container{
+        .header{
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        margin: 5px 10px;
+        span{
+            font-weight: 400;
+            font-size: 14px;
+        }
+        button{
+            padding: 0px 10px;
+            border-radius: 5px;
+            border: 1px solid #d3d3d3;
+            margin-left: 10px;
+            cursor: pointer;
+            &:hover{
+                background-color: #dedede;
+            }
+        }
+    }
+    .title{
+        font-size: 25px;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        margin: 1rem 0 0 0;
+    }
+    .form{
+        position: relative;
+        &-login{
+            // margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,10%);
+        width: 350px;
+        height: 470px;
+        border-radius: 15px!important;
+        background: white;
+        box-shadow: 1px 1px 8px 1px rgba(#000, 0.2);
+        .form-input-password{
+            position: relative;
+            span{
+                i{
+                    position: absolute;
+                    cursor: pointer;
+                    color: rgba(grey, 0.7);
+                    top: 50%;
+                    right: 0%;
+                    transform: translate(-100%,-25%);
+                    &:hover{
+                        color: grey;
+                    }
+                }
+            }
+        }
+        .err{
+            i{
+                color: red;
+                font-size: 14px;
+            }
+        }
+        .btn-submit{
+            margin: 10px;
+            width: 95%;
+            height: 38px;
+            background:#000!important;
+            border: none!important;
+            border-radius: 25px!important;
+            font-weight: bold;
+            font-size: 18px;
+            
+        }
+    }
+    .input{
+        border: none;
+        border-radius: 0px;
+        box-shadow: none;
+        border-bottom:2px solid rgba(grey, 0.2) ;
+        font-size: 18px;
+        &::placeholder{
+            color:rgba(grey, 0.7) ;
+            font-size: 20px;
+        }
+        &:focus{
+            border-bottom:2px solid #33ccff ;
+            &::placeholder{
+                opacity: 0;
+            }
+        }
+    }
+    .label{
+        color: rgba(grey, 0.6);
+        margin-left: 20px;
+    }
+    &-header{
+        text-align: center;
+        font-weight: bold;
+        font-size: 28px;
+    }
+    } 
+    .back-home{
+        position: absolute;
+        left: 10px;
+        bottom: 50px;
+        background-color:darkorange;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.4s ease-in-out;
+        &:hover{
+            scale: 1.1;
+        }
+    }
+}

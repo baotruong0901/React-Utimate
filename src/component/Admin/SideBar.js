@@ -50,7 +50,7 @@ const SideBar = (props) => {
                         // suffix={<span className="badge red">New</span>}
                         >
                             dashboard
-                            <Link to="/Admins" />
+                            <Link to="/admins" />
                         </MenuItem>
                         <SubMenu
                             title={'Features'}
@@ -59,7 +59,7 @@ const SideBar = (props) => {
                         >
                             <MenuItem>
                                 Quản lý users
-                                <Link to="/Admins/manage-user" />
+                                <Link to="/admins/manage-user" />
                             </MenuItem>
                             <MenuItem> Quản lý bài Quiz</MenuItem>
                             <MenuItem> Quản lý câu hỏi</MenuItem>
