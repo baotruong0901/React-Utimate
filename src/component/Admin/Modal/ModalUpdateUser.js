@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc'
-import axios from 'axios';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { toast } from 'react-toastify';
-import { postCreateNewUser } from '../../../services/apiService'
+import _ from 'lodash'
 const ModalManageUser = (props) => {
-    const { show, setShow } = props
+    const { show, setShow, dataUpdate } = props
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userName, setUserName] = useState("");
@@ -15,7 +14,20 @@ const ModalManageUser = (props) => {
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [showHidePassword, setShowHidePassword] = useState(false)
-    const { handleUpdate } = props
+
+    useEffect(() => {
+        if (!_.isEmpty(dataUpdate)) {
+            setEmail(dataUpdate.email)
+            setPassword('')
+            setUserName(dataUpdate.userName)
+            setRole(dataUpdate.role)
+            setImage(dataUpdate.image)
+            if (dataUpdate.image) {
+                setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
+            }
+        }
+    }, [dataUpdate])
+
     const handleClose = () => {
         setShow(false)
         setEmail("")
@@ -36,57 +48,17 @@ const ModalManageUser = (props) => {
 
     }
 
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
-    const validatePassword = (password) => {
-        return String(password)
-            .match(
-                /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-            );
-    };
 
 
-    const handleSubmitCreateUser = async () => {
-        // validate
-        const isValidEmail = validateEmail(email)
-        const isValidatePassword = validatePassword(password)
-        if (!isValidEmail) {
-            toast.error('Invalid email!')
-            return
-        }
 
-        if (!password) {
-            toast.error('Password cannot be left blank!')
-            return
-        }
-        if (!isValidatePassword) {
-            toast.error('Minimum eight characters, at least one letter and one number!')
-            return
-        }
 
-        let data = await postCreateNewUser(email, password, userName, role, image)
-        console.log("check res: ", data);
-        if (data && data.EC === 0) {
-            toast.success(data.EM)
-            handleClose()
-            await props.fetchListUser()
-        }
-        else if (data && data.EC !== 0) {
-            toast.error(data.EM)
-        }
-    }
 
 
     return (
         <>
             <Modal show={show} onHide={handleClose} size="lg" className='modal-add-user'>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add new user</Modal.Title>
+                    <Modal.Title>Update user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -94,6 +66,7 @@ const ModalManageUser = (props) => {
                             <div className="form-group col-md-6">
                                 <label>Email</label>
                                 <input type="email" className="form-control" placeholder="Email" value={email}
+                                    disabled
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
@@ -105,6 +78,7 @@ const ModalManageUser = (props) => {
                                         className="form-control"
                                         placeholder="Password"
                                         value={password}
+                                        disabled
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                     <span
@@ -149,8 +123,8 @@ const ModalManageUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSubmitCreateUser}>
-                        Save
+                    <Button variant="primary" >
+                        Update
                     </Button>
                 </Modal.Footer>
             </Modal>
