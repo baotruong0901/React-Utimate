@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc'
-import axios from 'axios';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { toast } from 'react-toastify';
-import { postCreateNewUser } from '../../../services/apiService'
+import { postCreateNewUser, putUpdateUser } from '../../../services/apiService'
+import _ from 'lodash'
 const ModalManageUser = (props) => {
-    const { show, setShow } = props
+    const { show, setShow, showModalUpdate, dataUpdate, resetDataUpdate, fetchUserPaginate } = props
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userName, setUserName] = useState("");
@@ -15,7 +15,6 @@ const ModalManageUser = (props) => {
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [showHidePassword, setShowHidePassword] = useState(false)
-    const { handleUpdate } = props
     const handleClose = () => {
         setShow(false)
         setEmail("")
@@ -24,6 +23,7 @@ const ModalManageUser = (props) => {
         setRole("USER")
         setImage("")
         setPreviewImage("")
+        resetDataUpdate()
     }
 
     const handleUploadImage = (e) => {
@@ -52,41 +52,70 @@ const ModalManageUser = (props) => {
 
 
     const handleSubmitCreateUser = async () => {
-        // validate
-        const isValidEmail = validateEmail(email)
-        const isValidatePassword = validatePassword(password)
-        if (!isValidEmail) {
-            toast.error('Invalid email!')
-            return
+
+        if (showModalUpdate === false) {
+            // validate
+            const isValidEmail = validateEmail(email)
+            const isValidatePassword = validatePassword(password)
+            if (!isValidEmail) {
+                toast.error('Invalid email!')
+                return
+            }
+
+            if (!password) {
+                toast.error('Password cannot be left blank!')
+                return
+            }
+            if (!isValidatePassword) {
+                toast.error('Minimum eight characters, at least one letter and one number!')
+                return
+            }
+            let data = await postCreateNewUser(email, password, userName, role, image)
+            console.log("check res: ", data);
+            if (data && data.EC === 0) {
+                toast.success(data.EM)
+                handleClose()
+                props.setCurrentPage(1)
+                await fetchUserPaginate(1)
+            }
+            else if (data && data.EC !== 0) {
+                toast.error(data.EM)
+            }
+        }
+        else {
+            let data = await putUpdateUser(dataUpdate.id, userName, role, image)
+            console.log("check res: ", data);
+            if (data && data.EC === 0) {
+                toast.success(data.EM)
+                handleClose()
+                await fetchUserPaginate(props.currentPage)
+            }
+            else if (data && data.EC !== 0) {
+                toast.error(data.EM)
+            }
         }
 
-        if (!password) {
-            toast.error('Password cannot be left blank!')
-            return
-        }
-        if (!isValidatePassword) {
-            toast.error('Minimum eight characters, at least one letter and one number!')
-            return
-        }
-
-        let data = await postCreateNewUser(email, password, userName, role, image)
-        console.log("check res: ", data);
-        if (data && data.EC === 0) {
-            toast.success(data.EM)
-            handleClose()
-            await props.fetchListUser()
-        }
-        else if (data && data.EC !== 0) {
-            toast.error(data.EM)
-        }
     }
 
+    //update
+    useEffect(() => {
+        if (!_.isEmpty(dataUpdate)) {
+            setEmail(dataUpdate.email)
+            setPassword('')
+            setUserName(dataUpdate.username)
+            setRole(dataUpdate.role)
+            setImage(dataUpdate.image)
+            if (dataUpdate.image) {
+                setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
+            }
+        }
+    }, [dataUpdate])
 
     return (
         <>
             <Modal show={show} onHide={handleClose} size="lg" className='modal-add-user'>
                 <Modal.Header closeButton>
-                    <Modal.Title>Add new user</Modal.Title>
+                    <Modal.Title>{showModalUpdate === true ? 'Update user' : 'Add new user'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
@@ -95,6 +124,7 @@ const ModalManageUser = (props) => {
                                 <label>Email</label>
                                 <input type="email" className="form-control" placeholder="Email" value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    disabled={showModalUpdate === true ? true : ''}
                                 />
                             </div>
                             <div className="form-group col-md-6">
@@ -105,6 +135,7 @@ const ModalManageUser = (props) => {
                                         className="form-control"
                                         placeholder="Password"
                                         value={password}
+                                        disabled={showModalUpdate === true ? true : ''}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
                                     <span
@@ -125,7 +156,8 @@ const ModalManageUser = (props) => {
 
                             <div className="form-group col-md-6">
                                 <label>Role</label>
-                                <select className="form-control" onChange={(e) => setRole(e.target.value)}>
+                                <select value={role}
+                                    className="form-control" onChange={(e) => setRole(e.target.value)}>
                                     <option value='USER'>USER</option>
                                     <option value='ADMIN'>ADMIN</option>
                                 </select>
@@ -150,7 +182,7 @@ const ModalManageUser = (props) => {
                         Close
                     </Button>
                     <Button variant="primary" onClick={handleSubmitCreateUser}>
-                        Save
+                        {showModalUpdate === true ? 'Update' : 'Save'}
                     </Button>
                 </Modal.Footer>
             </Modal>
