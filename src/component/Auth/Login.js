@@ -7,10 +7,12 @@ import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/action/userActions';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 const Login = (props) => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -23,14 +25,18 @@ const Login = (props) => {
         //validate
 
         //submit
+        setIsLoading(true)
         let data = await postLogin(email, password)
         if (data && data.EC === 0) {
             dispatch(login(data))
+            setIsLoading(false)
             toast.success(data.EM)
             navigate('/')
         }
         else if (data && data.EC !== 0) {
+            setIsLoading(false)
             toast.error(data.EM)
+
         }
     }
 
@@ -82,12 +88,15 @@ const Login = (props) => {
                             ></i>
                         </span>
                     </Form.Group>
-                    <Button
+                    <button
                         className="btn-submit mb-2 col-12"
                         onClick={() => handleSubmit()}
+                        type="button"
+                        disabled={isLoading}
                     >
-                        Log in
-                    </Button>
+                        {isLoading === true && <AiOutlineLoading3Quarters className='loading-icon' />}
+                        <span>Log in</span>
+                    </button>
                     <div className="Forgot-password col-12 mb-1">
                         Forgot your password?
                     </div>

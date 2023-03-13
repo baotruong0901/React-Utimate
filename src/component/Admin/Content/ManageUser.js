@@ -21,12 +21,6 @@ const ManageUser = (props) => {
         fetchUserPaginate(1)
     }, [])
 
-    const fetchListUser = async () => {
-        let data = await getAllUser()
-        if (data.EC === 0) {
-            setListUsers(data.DT)
-        }
-    }
 
     const handleCreateUser = () => {
         setShowModalCreateUser(true)
