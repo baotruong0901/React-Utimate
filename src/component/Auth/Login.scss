@@ -1,7 +1,7 @@
 
 .login-container{
     position: relative;
-    height: 100vh;
+    max-height: 100vh;
     .header{
         display: flex;
         justify-content: right;
@@ -27,16 +27,11 @@
         font-weight: 600;
         display: flex;
         justify-content: center;
-        margin: 1rem 0 0 0;
+        margin: 1rem 0 0 0 ;
     }
     .form{
-        position: relative;
         &-login{
-            // margin: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,10%);
+        margin: 3rem auto;
         width: 350px;
         height: 470px;
         border-radius: 15px!important;
@@ -144,7 +139,7 @@
     .back-home{
         position: absolute;
         left: 10px;
-        bottom: 50px;
+        // bottom: 50px;
         background-color:darkorange;
         color: white;
         padding: 5px 10px;

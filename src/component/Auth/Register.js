@@ -78,7 +78,7 @@ const Register = (props) => {
                 <button onClick={(e) => navigate('/login')}>Log in</button>
             </div>
             <div className='title'>
-                <span>Typeform</span>
+                <span>Register</span>
             </div>
             <div className='form'>
                 <Form

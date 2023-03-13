@@ -52,7 +52,7 @@ const Login = (props) => {
                 <button onClick={(e) => navigate('/register')}>Sign up</button>
             </div>
             <div className='title'>
-                <span>Typeform</span>
+                <span>Login</span>
             </div>
             <div className='form'>
                 <Form
