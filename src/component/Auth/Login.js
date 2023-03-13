@@ -5,12 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/action/userActions';
 const Login = (props) => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const handleShowHidePassword = () => {
         setIsShowPassword(!isShowPassword)
@@ -21,8 +24,8 @@ const Login = (props) => {
 
         //submit
         let data = await postLogin(email, password)
-        console.log("data>>>>", data);
         if (data && data.EC === 0) {
+            dispatch(login(data))
             toast.success(data.EM)
             navigate('/')
         }

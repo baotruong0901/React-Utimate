@@ -86,7 +86,7 @@ const Register = (props) => {
                     onKeyDown={(e) => handleKeyDown(e)}
                 >
                     <Form.Group className="col-12 mb-4">
-                        <Form.Label className="label">Email</Form.Label>
+                        <Form.Label className="label">Email(*)</Form.Label>
                         <Form.Control
                             className="input"
                             type="email"
@@ -96,7 +96,7 @@ const Register = (props) => {
                         ></Form.Control>
                     </Form.Group>
                     <Form.Group className="form-input-password col-12 mb-2">
-                        <Form.Label className="label">Password</Form.Label>
+                        <Form.Label className="label">Password(*)</Form.Label>
                         <Form.Control
                             className="input"
                             type={isShowPassword ? "text" : "password"}
@@ -128,7 +128,7 @@ const Register = (props) => {
                         className="btn-submit mb-2 col-12"
                         onClick={() => handleSubmit()}
                     >
-                        Sign up
+                        Create my free account
                     </Button>
                 </Form>
             </div>

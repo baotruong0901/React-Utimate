@@ -29,7 +29,6 @@
     .form{
         position: relative;
         &-login{
-            // margin: auto;
         position: absolute;
         top: 50%;
         left: 50%;
@@ -48,17 +47,11 @@
                     color: rgba(grey, 0.7);
                     top: 50%;
                     right: 0%;
-                    transform: translate(-100%,-25%);
+                    transform: translate(-100%,20%);
                     &:hover{
                         color: grey;
                     }
                 }
-            }
-        }
-        .err{
-            i{
-                color: red;
-                font-size: 14px;
             }
         }
         .btn-submit{
@@ -68,8 +61,8 @@
             background:#000!important;
             border: none!important;
             border-radius: 25px!important;
-            font-weight: bold;
-            font-size: 18px;
+            font-weight: 400;
+            font-size: 16px;
             
         }
     }
