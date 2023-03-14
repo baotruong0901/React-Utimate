@@ -19,7 +19,9 @@ const ManageUser = (props) => {
     useEffect(() => {
         // fetchListUser()
         fetchUserPaginate(1)
+        document.title = 'Manage User';
     }, [])
+
 
 
     const handleCreateUser = () => {
@@ -56,6 +58,7 @@ const ManageUser = (props) => {
                 <div className="title">
                     Manage User
                 </div>
+                <hr />
                 <div className="users-content">
                     <div className="add-new">
                         <button className="btn btn-primary"

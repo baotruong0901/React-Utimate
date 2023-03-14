@@ -14,8 +14,10 @@ import sidebarBg from '../../assets/bg2.jpg';
 import { DiReact } from 'react-icons/di'
 import { MdDashboard } from 'react-icons/md'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const SideBar = (props) => {
     const { image, collapsed, toggled, handleToggleSidebar } = props;
+    const navigate = useNavigate()
     return (
         <>
             <ProSidebar
@@ -27,8 +29,9 @@ const SideBar = (props) => {
             >
                 <SidebarHeader>
                     <div
+                        onClick={() => navigate("/")}
                         style={{
-                            padding: '24px',
+                            padding: '16px',
                             textTransform: 'uppercase',
                             fontWeight: 'bold',
                             fontSize: 14,
@@ -36,10 +39,11 @@ const SideBar = (props) => {
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
+                            cursor: 'pointer'
                         }}
                     >
                         <DiReact size={'3em'} color={'0bfff'} />
-                        Hoi Dan IT
+                        <span style={{ paddingLeft: '10px' }}>Admin</span>
                     </div>
                 </SidebarHeader>
 
@@ -47,21 +51,23 @@ const SideBar = (props) => {
                     <Menu iconShape="circle">
                         <MenuItem
                             icon={<MdDashboard />}
-                        // suffix={<span className="badge red">New</span>}
                         >
                             dashboard
                             <Link to="/admins" />
                         </MenuItem>
                         <SubMenu
                             title={'Features'}
-                            // suffix={<span className="badge yellow">3</span>}
                             icon={<FaGem />}
                         >
                             <MenuItem>
-                                Quản lý users
-                                <Link to="/admins/manage-user" />
+
+                                <Link to="/admins/manage-user" >Quản lý users</Link>
                             </MenuItem>
-                            <MenuItem> Quản lý bài Quiz</MenuItem>
+                            <MenuItem>
+
+                                <Link to="/admins/manage-quizzes" >Quản lý bài Quiz</Link>
+
+                            </MenuItem>
                             <MenuItem> Quản lý câu hỏi</MenuItem>
                         </SubMenu>
                     </Menu>
@@ -82,9 +88,9 @@ const SideBar = (props) => {
                             rel="noopener noreferrer"
                         >
                             <FaGithub />
-                            <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {/* <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                                 viewSource
-                            </span>
+                            </span> */}
                         </a>
                     </div>
                 </SidebarFooter>

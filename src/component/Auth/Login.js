@@ -2,12 +2,19 @@ import './Login.scss'
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/action/userActions';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import NProgress from "nprogress";
+NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 50,
+
+})
+
 const Login = (props) => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     const [email, setEmail] = useState("")
@@ -40,16 +47,28 @@ const Login = (props) => {
         }
     }
 
+    const handleClickRegister = () => {
+        NProgress.start()
+        setTimeout(() => {
+            navigate('/register')
+            NProgress.done()
+        }, 2000)
+    }
+
     const handleKeyDown = (e) => {
         if (e.keyCode === 13) {
             handleSubmit()
         }
     };
+
+    useEffect(() => {
+        document.title = 'Login';
+    })
     return (
         <div className='login-container'>
             <div className='header'>
                 <span>Don't have an account yet?</span>
-                <button onClick={(e) => navigate('/register')}>Sign up</button>
+                <button onClick={(e) => handleClickRegister()}>Sign up</button>
             </div>
             <div className='title'>
                 <span>Login</span>

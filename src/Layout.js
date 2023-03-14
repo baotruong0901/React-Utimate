@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Admin from './component/Admin/Admin';
 import User from './component/User/User';
 import HomePage from './component/Home/HomePage';
@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Register from './component/Auth/Register';
 import ListQuiz from './component/User/ListQuiz';
 import DetailQuiz from './component/User/DetailQuiz';
+import ManageQuiz from './component/Admin/Content/ManageQuiz';
 const NotFound = () => {
     return (
         <div className='container mt-3 alert alert-danger'>
@@ -30,6 +31,7 @@ const Layout = (props) => {
                 <Route path='/admins' element={<Admin />}>
                     <Route index element={<DashBoard />} />
                     <Route path='manage-user' element={<ManageUser />} />
+                    <Route path='manage-quizzes' element={<ManageQuiz />} />
                 </Route>
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />

@@ -6,12 +6,42 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Header.scss'
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/action/userActions';
+import NProgress from "nprogress";
+NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 75,
+
+})
 const Header = () => {
     const navigate = useNavigate();
     const isLogin = useSelector(state => state.user.isLogin)
     const userInfo = useSelector(state => state.user.userInfo)
+    const dispatch = useDispatch()
     const handleLogin = () => {
-        navigate("/login")
+        NProgress.start();
+        setTimeout(() => {
+            navigate('/login')
+            NProgress.done();
+        }, 3000)
+    }
+
+    const handleRegister = () => {
+        NProgress.start();
+        setTimeout(() => {
+            navigate('/register')
+            NProgress.done();
+        }, 3000)
+    }
+
+    const handleLogout = () => {
+        NProgress.start();
+        setTimeout(() => {
+            navigate('/login')
+            NProgress.done();
+        }, 3000)
+        dispatch(logout())
     }
     return (
         <Navbar bg="light" expand="lg">
@@ -28,11 +58,11 @@ const Header = () => {
                         {isLogin === false ?
                             <>
                                 <Button className='btn-login' onClick={() => handleLogin()}>Log in</Button>
-                                <Button className='btn-signup' onClick={() => navigate('/register')}>Sign up</Button>
+                                <Button className='btn-signup' onClick={() => handleRegister()}>Sign up</Button>
                             </>
                             :
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
-                                <NavDropdown.Item>Log out</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => handleLogout()}>Log out</NavDropdown.Item>
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
                             </NavDropdown>
                         }

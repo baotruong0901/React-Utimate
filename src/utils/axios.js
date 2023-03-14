@@ -1,6 +1,6 @@
 import axios from "axios";
-import NProgress from "nprogress";
 import { store } from '../store/store'
+import NProgress from "nprogress";
 NProgress.configure({
     showSpinner: false,
     // easing: 'ease-out',

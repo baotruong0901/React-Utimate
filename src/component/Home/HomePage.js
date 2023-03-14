@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import videoHomepage from "../../assets/video-homepage.mp4"
 import { useNavigate } from "react-router-dom"
 import "./HomePage.scss"
+import { useEffect } from "react"
 const HomePage = (props) => {
     const isLogin = useSelector(state => state.user.isLogin)
     const navigate = useNavigate()
@@ -11,6 +12,9 @@ const HomePage = (props) => {
     //         navigate("users")
     //     }, 3000)
     // }
+    useEffect(() => {
+        document.title = 'Quiz App';
+    })
     return (
         <div className="homepage-container">
             <video autoPlay muted loop>

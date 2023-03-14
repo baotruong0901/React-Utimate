@@ -7,3 +7,8 @@ export const login = (data) => {
         payload: data
     }
 }
+export const logout = (data) => {
+    return {
+        type: actionTypes.FETCH_USER_LOGOUT_SUCCESS
+    }
+}

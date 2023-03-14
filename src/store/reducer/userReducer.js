@@ -12,6 +12,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 userInfo: action.payload.DT,
                 isLogin: true,
             };
+
+        case actionTypes.FETCH_USER_LOGOUT_SUCCESS:
+            return {
+                ...state,
+                userInfo: null,
+                isLogin: false,
+            };
+
         default: return state;
     }
 };

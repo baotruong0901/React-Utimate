@@ -8,6 +8,9 @@ const ListQuiz = (props) => {
     useEffect(() => {
         getQuizData()
     }, [])
+    useEffect(() => {
+        document.title = 'Quiz';
+    })
     const getQuizData = async () => {
         const data = await getQuizByUser()
         if (data && data.EC === 0) {
@@ -26,7 +29,10 @@ const ListQuiz = (props) => {
                             <div className="card-body">
                                 <h5 className="card-title">Quiz {index + 1}</h5>
                                 <p className="card-text">{item.description}</p>
-                                <button className="btn btn-primary" onClick={() => navigate(`/quiz/${item.id}`)}>Start now</button>
+                                <button className="btn btn-primary"
+                                    onClick={() => navigate(`/quiz/${item.id}`, { state: { description: item.description } })}>
+                                    Start now
+                                </button>
                             </div>
                         </div>
                     )

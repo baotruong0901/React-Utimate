@@ -22,11 +22,7 @@ const ModalDeleteUser = (props) => {
             toast.error(data.EM)
         }
     }
-    // const handleKeyDown = (e) => {
-    //     if (e.keyCode === 13) {
-    //         handleDeleteUser()
-    //     }
-    // };
+
     return (
         <>
             <Modal show={show}
@@ -35,7 +31,7 @@ const ModalDeleteUser = (props) => {
                 className='modal-delete-user'>
 
                 <Modal.Header closeButton>
-                    <Modal.Title>Delete</Modal.Title>
+                    <Modal.Title>Confirm Delete the User</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure delete user: <b>{dataDelete && dataDelete.email ? dataDelete.email : ''}</b>

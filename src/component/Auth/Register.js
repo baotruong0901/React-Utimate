@@ -2,9 +2,16 @@ import './Register.scss'
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify'
 import { postRegister } from '../../services/apiService'
+import NProgress from "nprogress";
+NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 50,
+
+})
+
 const Register = (props) => {
     const [isShowPassword, setIsShowPassword] = useState(false)
     const [email, setEmail] = useState("")
@@ -36,6 +43,9 @@ const Register = (props) => {
                 /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
             );
     };
+    useEffect(() => {
+        document.title = 'Register'
+    })
 
     const handleSubmit = async () => {
         //validate
@@ -66,6 +76,14 @@ const Register = (props) => {
         }
     }
 
+    const handleClickLogin = () => {
+        NProgress.start()
+        setTimeout(() => {
+            navigate('/login')
+            NProgress.done()
+        }, 2000)
+    }
+
     const handleKeyDown = (e) => {
         if (e.keyCode === 13) {
             handleSubmit()
@@ -75,7 +93,7 @@ const Register = (props) => {
         <div className='register-container'>
             <div className='header'>
                 <span>Alredy have an account?</span>
-                <button onClick={(e) => navigate('/login')}>Log in</button>
+                <button onClick={(e) => handleClickLogin()}>Log in</button>
             </div>
             <div className='title'>
                 <span>Register</span>
