@@ -1,16 +1,16 @@
 .admin-container {
     display: flex;
-    .admin-sidebar {
-        .pro-sidebar {
-            height: 100vh !important;
-            }
-    }
     .admin-content{
         width: 100%;
         .admin-header{
+            height: 40px;
             font-size: 30px;
             font-weight: 600px;
-            padding: 0 20px;
+            padding: 0px 20px;
+            margin-bottom: 10px;
+        }
+        .admin-main{
+            height: calc(100vh - 50px);
         }
     }
 }

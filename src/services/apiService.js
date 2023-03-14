@@ -60,9 +60,15 @@ const postCreateNewQuiz = (name, description, difficulty, image) => {
     data.append('difficulty', difficulty)
     data.append('quizImage', image)
     return axios.post("api/v1/quiz", data)
-
 }
 
+const getAllQuizForAdmin = (id) => {
+    return axios.get(`api/v1/quiz/all`)
+}
+
+const deleteQuiz = (quizId) => {
+    return axios.delete(`api/v1/quiz/${quizId}`)
+}
 
 export {
     postCreateNewUser,
@@ -76,4 +82,6 @@ export {
     getQuestionData,
     postSubmitAnswers,
     postCreateNewQuiz,
+    getAllQuizForAdmin,
+    deleteQuiz,
 }

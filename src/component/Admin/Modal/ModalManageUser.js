@@ -15,6 +15,7 @@ const ModalManageUser = (props) => {
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [showHidePassword, setShowHidePassword] = useState(false)
+
     const handleClose = () => {
         setShow(false)
         setEmail("")

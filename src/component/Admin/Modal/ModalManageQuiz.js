@@ -12,7 +12,7 @@ const options = [
     { value: 'HARD', label: 'HARD' },
 ];
 const ModalManageQuiz = (props) => {
-    const { show, setShow } = props
+    const { show, setShow, fetchAllQuiz } = props
     const [image, setImage] = useState("");
     const [previewImage, setPreviewImage] = useState("");
     const [name, setName] = useState("");
@@ -59,11 +59,13 @@ const ModalManageQuiz = (props) => {
             toast.success(data.EM)
             reset()
             handleClose()
+            await fetchAllQuiz()
         } else {
             toast.error(data.EM)
         }
-        console.log(data);
     }
+
+
     return (
         <>
             <Modal show={show} onHide={handleClose} size="lg" className='modal-add-user'>
