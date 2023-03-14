@@ -3,8 +3,9 @@ import Modal from 'react-bootstrap/Modal';
 import Select from 'react-select';
 import { FcPlus } from 'react-icons/fc'
 import './ModalManageQuiz.scss'
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { postCreateNewQuiz } from '../../../services/apiService';
+import { toast } from 'react-toastify'
 const options = [
     { value: 'EASY', label: 'EASY' },
     { value: 'MEDIUM', label: 'MEDIUM' },
@@ -16,19 +17,52 @@ const ModalManageQuiz = (props) => {
     const [previewImage, setPreviewImage] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [type, setType] = useState("EASY");
-
+    const [type, setType] = useState({
+        value: 'EASY', label: 'EASY'
+    });
+    useEffect(() => {
+        document.title = 'Manage quiz'
+    }, [])
     const handleClose = () => {
         setShow(false)
+        reset()
+    }
+    const reset = () => {
+        setImage("")
+        setPreviewImage("")
+        setName("")
+        setDescription("")
+        setType({
+            value: 'EASY', label: 'EASY'
+        })
     }
     const handleUploadImage = (e) => {
         if (e.target && e.target.files && e.target.files[0]) {
             setPreviewImage(URL.createObjectURL(e.target.files[0]))
             setImage(e.target.files[0])
         } else {
-
+            setPreviewImage("")
         }
 
+    }
+    const handleSubmit = async () => {
+        if (!name || !description) {
+            toast.error("Name/Description is required!")
+            return
+        }
+        if (!image) {
+            toast.error("No file were uploaded!")
+            return
+        }
+        let data = await postCreateNewQuiz(name, description, type.value, image)
+        if (data && data.EC === 0) {
+            toast.success(data.EM)
+            reset()
+            handleClose()
+        } else {
+            toast.error(data.EM)
+        }
+        console.log(data);
     }
     return (
         <>
@@ -59,8 +93,8 @@ const ModalManageQuiz = (props) => {
                                 <label>Description</label>
                             </div>
                             <Select className='my-3'
-                                value={type}
-                                // onChange={(e)=>handleChange(e)}
+                                defaultValue={type}
+                                onChange={setType}
                                 options={options}
                             />
                             <div className='form-group col-md-12'>
@@ -81,7 +115,7 @@ const ModalManageQuiz = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={() => handleSubmit()}>
                         Save
                     </Button>
                 </Modal.Footer>

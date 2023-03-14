@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams, useLocation } from "react-router-dom"
-import { getQuestionData, postSubmitQuiz } from "../../services/apiService"
+import { getQuestionData, postSubmitAnswers } from "../../services/apiService"
 import _ from "lodash"
 import Question from "./Question"
 import './DetailQuiz.scss'
@@ -103,7 +103,7 @@ const DetailQuiz = (props) => {
         }
         payload.answers = answer
         //submit api
-        let data = await postSubmitQuiz(payload)
+        let data = await postSubmitAnswers(payload)
         if (data && data.EC === 0) {
             setDataModalResult({
                 countCorrect: data.DT.countCorrect,
