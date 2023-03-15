@@ -9,10 +9,13 @@ import ModalDeleteQuiz from '../Modal/ModalDeleteQuiz'
 const ManageQuiz = (props) => {
     const [showModal, setShowModal] = useState(false)
     const [showModalDelete, setShowModalDelete] = useState(false)
+    const [showModalUpdate, setShowModalUpdate] = useState(false)
+    const [quizUpdate, setQuizUpdate] = useState([])
     const [listQuiz, setListQuiz] = useState("")
     const [quizDelete, setQuizDelete] = useState([])
     const handleCreatequiz = () => {
         setShowModal(true)
+        setShowModalUpdate(false)
     }
     useEffect(() => {
         fetchAllQuiz()
@@ -26,6 +29,14 @@ const ManageQuiz = (props) => {
     const handleClickDeleteQuiz = (quiz) => {
         setShowModalDelete(true)
         setQuizDelete(quiz)
+    }
+    const handleClickUpdateQuiz = (quiz) => {
+        setShowModalUpdate(true)
+        setShowModal(true)
+        setQuizUpdate(quiz)
+    }
+    const resetDataUpdate = () => {
+        setQuizUpdate({})
     }
     return (
         <div className="manage-user-container">
@@ -46,6 +57,9 @@ const ManageQuiz = (props) => {
                         listQuiz={listQuiz}
                         fetchAllQuiz={fetchAllQuiz}
                         handleClickDeleteQuiz={handleClickDeleteQuiz}
+                        setShowModalUpdate={setShowModalUpdate}
+                        handleClickUpdateQuiz={handleClickUpdateQuiz}
+
                     />
                 </div>
             </div>
@@ -53,6 +67,9 @@ const ManageQuiz = (props) => {
                 show={showModal}
                 setShow={setShowModal}
                 fetchAllQuiz={fetchAllQuiz}
+                showModalUpdate={showModalUpdate}
+                quizUpdate={quizUpdate}
+                resetDataUpdate={resetDataUpdate}
             />
             <ModalDeleteQuiz
                 show={showModalDelete}

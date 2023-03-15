@@ -23,7 +23,8 @@ const TableUserPaginate = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {listUsers && listUsers.length > 0 ? listUsers.map((item, index) => {
+
+                    {listUsers && listUsers.length > 0 && listUsers.map((item, index) => {
                         return (
                             <tr key={item.id}>
                                 <th scope="row">{item.id}</th>
@@ -36,10 +37,11 @@ const TableUserPaginate = (props) => {
                                     <button className="btn-delete" onClick={() => handleClickDeleteUser(item)}><RiDeleteBin6Line size={'1.5em'} /></button>
                                 </td>
                             </tr>
-                        )
 
+                        )
                     })
-                        :
+                    }
+                    {listUsers && listUsers.length === 0 &&
                         <tr style={{ textAlign: 'center', color: 'grey' }}>
                             <td colSpan={"4"}>
                                 Data not found
@@ -47,6 +49,7 @@ const TableUserPaginate = (props) => {
 
                         </tr>
                     }
+
 
 
                 </tbody>

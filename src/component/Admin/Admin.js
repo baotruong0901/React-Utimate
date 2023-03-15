@@ -2,12 +2,14 @@ import SideBar from "./SideBar";
 import './Admin.scss';
 import { FaBars } from 'react-icons/fa';
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import PerfectScrollbar from 'react-perfect-scrollbar'
+import { useSelector } from "react-redux";
 
 const Admin = (props) => {
     const [collapsed, setCollapsed] = useState(false);
-
+    // const isLogin = useSelector(state => state.user.isLogin)
+    // const navigate = useNavigate()
     return (
         <div className="admin-container">
             <div className="admin-sidebar">
@@ -23,8 +25,6 @@ const Admin = (props) => {
                     </PerfectScrollbar>
                 </div>
             </div>
-
-
         </div>
     )
 }

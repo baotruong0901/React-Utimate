@@ -39,9 +39,10 @@ const Header = () => {
         NProgress.start();
         setTimeout(() => {
             navigate('/login')
+            dispatch(logout())
             NProgress.done();
         }, 3000)
-        dispatch(logout())
+
     }
     return (
         <Navbar bg="light" expand="lg">

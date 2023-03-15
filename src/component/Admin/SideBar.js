@@ -52,11 +52,11 @@ const SideBar = (props) => {
                         <MenuItem
                             icon={<MdDashboard />}
                         >
-                            dashboard
+                            Dashboard
                             <Link to="/admins" />
                         </MenuItem>
                         <SubMenu
-                            title={'Features'}
+                            title={'Manages'}
                             icon={<FaGem />}
                         >
                             <MenuItem>
@@ -68,7 +68,9 @@ const SideBar = (props) => {
                                 <Link to="/admins/manage-quizzes" >Quản lý bài Quiz</Link>
 
                             </MenuItem>
-                            <MenuItem> Quản lý câu hỏi</MenuItem>
+                            <MenuItem>
+                                <Link to="/admins/manage-questions" >Quản lý câu hỏi</Link>
+                            </MenuItem>
                         </SubMenu>
                     </Menu>
 

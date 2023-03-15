@@ -4,10 +4,8 @@ import { BiEdit } from 'react-icons/bi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import './TableAllQuiz.scss'
 const TableAllQuiz = (props) => {
-    const { listQuiz, handleClickDeleteQuiz } = props
-    const handleClickUpdate = () => {
+    const { listQuiz, handleClickDeleteQuiz, setShowModalUpdate, handleClickUpdateQuiz } = props
 
-    }
     return (
         <>
             <table className="table table-hover table-bordered table-all-quiz">
@@ -30,7 +28,7 @@ const TableAllQuiz = (props) => {
                                 <td>{item.difficulty}</td>
                                 <td className="action">
                                     <button className="btn-view">View</button>
-                                    <button className="btn-edit mx-3" onClick={() => handleClickUpdate(item)}><BiEdit size={'1.5em'} color={'grey'} /></button>
+                                    <button className="btn-edit mx-3" onClick={() => handleClickUpdateQuiz(item)}><BiEdit size={'1.5em'} color={'grey'} /></button>
                                     <button className="btn-delete" onClick={() => handleClickDeleteQuiz(item)}><RiDeleteBin6Line size={'1.5em'} /></button>
                                 </td>
                             </tr>

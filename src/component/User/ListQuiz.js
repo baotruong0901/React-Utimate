@@ -2,8 +2,16 @@ import { useEffect, useState } from 'react'
 import { getQuizByUser } from '../../services/apiService'
 import { useNavigate } from 'react-router-dom'
 import './ListQuiz.scss'
+import { useSelector } from 'react-redux'
+import NProgress from "nprogress";
+NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 50,
+
+})
 const ListQuiz = (props) => {
     const [listQuiz, setListQuiz] = useState()
+    const isLogin = useSelector(state => state.user.isLogin)
     const navigate = useNavigate()
     useEffect(() => {
         getQuizData()
@@ -12,17 +20,26 @@ const ListQuiz = (props) => {
         document.title = 'Quiz';
     })
     const getQuizData = async () => {
-        const data = await getQuizByUser()
-        if (data && data.EC === 0) {
-            setListQuiz(data.DT)
+        if (isLogin) {
+            const data = await getQuizByUser()
+            if (data && data.EC === 0) {
+                setListQuiz(data.DT)
+            }
+        } else {
+            NProgress.start()
+            setTimeout(() => {
+                navigate('/login')
+                NProgress.done()
+            }, 1000)
         }
-        console.log('data: ', data);
     }
+
+
+
     return (
         <div className='list-quiz-container container'>
             {listQuiz && listQuiz.length > 0 &&
                 listQuiz.map((item, index) => {
-                    console.log(item);
                     return (
                         <div className="card" style={{ width: "18rem" }} key={`${index}-quiz`}>
                             <img src={`data:image/jpeg;base64,${item.image}`} className="card-img-top" alt="..." />

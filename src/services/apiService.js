@@ -70,6 +70,17 @@ const deleteQuiz = (quizId) => {
     return axios.delete(`api/v1/quiz/${quizId}`)
 }
 
+const putUpdateQuiz = (quizId, quizName, description, type, image) => {
+    //submit with formdata
+    const data = new FormData()
+    data.append('id', quizId)
+    data.append('name', quizName)
+    data.append('description', description)
+    data.append('difficulty', type)
+    data.append('quizImage', image)
+    return axios.put("api/v1/quiz", data)
+}
+
 export {
     postCreateNewUser,
     getAllUser,
@@ -84,4 +95,5 @@ export {
     postCreateNewQuiz,
     getAllQuizForAdmin,
     deleteQuiz,
+    putUpdateQuiz,
 }

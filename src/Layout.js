@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Admin from './component/Admin/Admin';
-import User from './component/User/User';
 import HomePage from './component/Home/HomePage';
 import ManageUser from './component/Admin/Content/ManageUser';
 import DashBoard from './component/Admin/Content/DashBoard';
@@ -13,6 +12,7 @@ import Register from './component/Auth/Register';
 import ListQuiz from './component/User/ListQuiz';
 import DetailQuiz from './component/User/DetailQuiz';
 import ManageQuiz from './component/Admin/Content/ManageQuiz';
+import ManageQuetions from './component/Admin/Content/ManageQuestions';
 const NotFound = () => {
     return (
         <div className='container mt-3 alert alert-danger'>
@@ -32,6 +32,7 @@ const Layout = (props) => {
                     <Route index element={<DashBoard />} />
                     <Route path='manage-user' element={<ManageUser />} />
                     <Route path='manage-quizzes' element={<ManageQuiz />} />
+                    <Route path='manage-questions' element={<ManageQuetions />} />
                 </Route>
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />

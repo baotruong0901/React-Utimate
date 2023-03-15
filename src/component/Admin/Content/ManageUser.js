@@ -67,11 +67,7 @@ const ManageUser = (props) => {
                         </button>
                     </div>
                     <div className="table-user">
-                        {/* <TableAllUser
-                            listUsers={listUsers}
-                            handleClickUpdate={handleClickUpdate}
-                            handleClickDeleteUser={handleClickDeleteUser}
-                        /> */}
+
                         <TableUserPaginate
                             listUsers={listUsers}
                             handleClickUpdate={handleClickUpdate}
