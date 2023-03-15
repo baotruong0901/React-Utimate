@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react'
-import { getAllQuizForAdmin } from '../../../services/apiService'
 import { BiEdit } from 'react-icons/bi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import './TableAllQuiz.scss'
 const TableAllQuiz = (props) => {
-    const { listQuiz, handleClickDeleteQuiz, setShowModalUpdate, handleClickUpdateQuiz } = props
+    const { listQuiz, handleClickDeleteQuiz, handleClickUpdateQuiz } = props
 
     return (
         <>
