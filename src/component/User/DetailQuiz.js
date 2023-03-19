@@ -5,6 +5,7 @@ import _ from "lodash"
 import Question from "./Question"
 import './DetailQuiz.scss'
 import ModalResutl from "../Admin/Modal/ModalResutl"
+import BoxCountDown from "./BoxCountDown"
 const DetailQuiz = (props) => {
     const [arrQuestion, setArrQuestion] = useState([])
     const [questionIndex, setQuestionIndex] = useState(0)
@@ -112,13 +113,15 @@ const DetailQuiz = (props) => {
             })
             setShowModalResult(true)
         }
-        console.log(data);
     }
+
+    console.log('arrQuestion', arrQuestion);
+    console.log('location', location);
     return (
         <div className="detail-quiz-container container">
-            <div className="left-content">
-                <div className="title">
-                    <span>Quiz 1: {location && location?.state?.description}</span>
+            <div className="left-content" >
+                <div className='title'>
+                    <span>Quiz {quizId}: {location && location?.state?.description}</span>
                 </div>
                 <hr />
                 <div className="q-content">
@@ -144,7 +147,7 @@ const DetailQuiz = (props) => {
                 </div>
             </div>
             <div className="right-content">
-                count down
+                <BoxCountDown />
             </div>
             <ModalResutl
                 show={showModalResult}

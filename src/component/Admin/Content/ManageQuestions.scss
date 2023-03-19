@@ -26,7 +26,7 @@
         font-size: 22px;
         margin-bottom: 20px;
     }
-   .questions-content{
+   
     .questions{
         display: flex;
         gap: 20px;
@@ -79,18 +79,4 @@
         }
 
     }
-   }
-   .toggle-question{
-    position: relative;
-    margin-top: 90px;
-    .accordion-header{
-        position: absolute;
-        top: -70px;
-        border: 1px solid #d3d3d3;
-        border-radius: 5px;
-    }
-    .accordion-body{
-        // margin-top: 50px;
-    }
-   }
 }

@@ -53,6 +53,7 @@ const ManageQuiz = (props) => {
                 </div>
                 <hr />
                 <div className="table-user">
+                    <div className='header mb-1 title'>List Quiz</div>
                     <TableAllQuiz
                         listQuiz={listQuiz}
                         fetchAllQuiz={fetchAllQuiz}

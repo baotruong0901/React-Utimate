@@ -8,6 +8,8 @@ import { useContext, useEffect, useState } from 'react';
 import _ from 'lodash'
 import { toast } from 'react-toastify'
 import Accordion from 'react-bootstrap/Accordion';
+import Assign from './Assign'
+import UpdateQuiz from './UpdateQuiz'
 
 
 const ManageQuetions = (props) => {
@@ -16,15 +18,15 @@ const ManageQuetions = (props) => {
         {
             id: uuidv4(),
             description: '',
-            isValidQuestions: true,
-            file: '',
-            fileName: '',
+            isValidQuestions: false,
+            imageFile: '',
+            imageName: '',
             answers: [
                 {
                     id: uuidv4(),
                     description: '',
                     isCorrect: false,
-                    isValidAnswer: true
+                    isValidAnswer: false
                 }
             ]
         }
@@ -37,6 +39,9 @@ const ManageQuetions = (props) => {
     useEffect(() => {
         fetchAllQuiz()
     }, [])
+    useEffect(() => {
+        setQuestions(questions)
+    }, [questions]);
 
     const fetchAllQuiz = async () => {
         let data = await getAllQuizForAdmin()
@@ -55,8 +60,8 @@ const ManageQuetions = (props) => {
         let questionsClone = _.cloneDeep(questions)
         let index = questionsClone.findIndex(item => item.id === questionId)
         if (index > -1) {
-            questionsClone[index].file = e.target.files[0]
-            questionsClone[index].fileName = e.target.files[0].name
+            questionsClone[index].imageFile = e.target.files[0]
+            questionsClone[index].imageName = e.target.files[0].name
         }
         setQuestions(questionsClone)
 
@@ -67,15 +72,15 @@ const ManageQuetions = (props) => {
             const newQuestion = {
                 id: uuidv4(),
                 description: '',
-                isValidQuestions: true,
-                file: '',
-                fileName: '',
+                isValidQuestions: false,
+                imageFile: '',
+                imageName: '',
                 answers: [
                     {
                         id: uuidv4(),
                         description: '',
                         isCorrect: false,
-                        isValidAnswer: true
+                        isValidAnswer: false
                     }
                 ]
             }
@@ -96,7 +101,7 @@ const ManageQuetions = (props) => {
                 id: uuidv4(),
                 description: '',
                 isCorrect: false,
-                isValidAnswer: true
+                isValidAnswer: false
             }
             let index = questionsClone.findIndex(item => item.id === questionId)
             questionsClone[index].answers.push(newAnswer)
@@ -116,7 +121,7 @@ const ManageQuetions = (props) => {
             let index = questionsClone.findIndex(item => item.id === questionId)
             if (index > -1) {
                 questionsClone[index].description = value
-                questionsClone[index].isValidQuestions = true
+                questionsClone[index].isValidQuestions = false
                 setQuestions(questionsClone)
             }
         }
@@ -134,7 +139,7 @@ const ManageQuetions = (props) => {
                         }
                         if (type === 'INPUT') {
                             item.description = value
-                            item.isValidAnswer = true
+                            item.isValidAnswer = false
                         }
                     }
                     return item
@@ -143,8 +148,6 @@ const ManageQuetions = (props) => {
             setQuestions(questionsClone)
         }
     }
-
-
 
     const handleSubmit = async () => {
         //validate select quiz
@@ -158,7 +161,7 @@ const ManageQuetions = (props) => {
         let questionsClone = _.cloneDeep(questions)
         for (let i = 0; i < questionsClone.length; i++) {
             if (!questionsClone[i].description) {
-                questionsClone[i].isValidQuestions = false
+                questionsClone[i].isValidQuestions = true
                 isValidQ = false
                 setQuestions(questionsClone)
             }
@@ -169,22 +172,20 @@ const ManageQuetions = (props) => {
         for (let i = 0; i < questionsClone.length; i++) {
             for (let j = 0; j < questionsClone[i].answers.length; j++) {
                 if (!questionsClone[i].answers[j].description) {
-                    questionsClone[i].answers[j].isValidAnswer = false
+                    questionsClone[i].answers[j].isValidAnswer = true
                     isValidA = false
                     setQuestions(questionsClone)
                 }
             }
         }
-
         if (isValidQ === false || isValidA === false) {
             toast.error(`Not empty Questions/Answers!`)
-            console.log(questions);
             return
         }
 
         //submit questions
         for (const question of questions) {
-            const questionQuiz = await postCreateNewQuestionsForQuiz(select.value, question.description, question.file)
+            const questionQuiz = await postCreateNewQuestionsForQuiz(select.value, question.description, question.imageFile)
             // submit answers
             for (const answer of question.answers) {
                 await postCreateNewAnswer(answer.description, answer.isCorrect, questionQuiz.DT.id)
@@ -193,8 +194,6 @@ const ManageQuetions = (props) => {
         toast.success(`Create Question's succeed!`)
         setQuestions(initQuestions)
         setSelect(null)
-
-
 
         // await Promise.all(questions.map(async (item) => {
         //     const question = await postCreateNewQuestionsForQuiz(select.value, item.description, item.file)
@@ -209,196 +208,110 @@ const ManageQuetions = (props) => {
 
     return (
         <div className="manage-questions-container">
-            <div className="title">
-                Manage Quiz
-            </div>
-            <hr />
             <div className="questions-content">
-                <div className="add-new">
-                    <span><b>Select Quiz:</b></span>
-                    <Select
-                        className='col-5'
-                        defaultValue={select}
-                        onChange={setSelect}
-                        options={listQuiz}
-                    />
-                    <div className='toggle-question'>
-                        <Accordion defaultActiveKey="0" alwaysOpen={false}>
-                            <Accordion.Item eventKey="1" className='my-3'>
-                                <Accordion.Header className='col-5'><div><b>Add questions:</b></div></Accordion.Header>
-                                <Accordion.Body>
-                                    {questions && questions.length > 0 && questions.map((item, index) => {
-                                        return (
-                                            <>
-                                                <div className='q-main my-3' key={item.id}>
-                                                    <div className='questions mb-1'>
-                                                        <div className="form-floating col-md-5 mb-2">
-                                                            <input type="text"
-                                                                className={item.isValidQuestions ? 'form-control' : 'form-control is-invalid'}
-                                                                placeholder="Description"
-                                                                value={item.description}
+                <div className='add-new-questions'>
+                    <Accordion defaultActiveKey="0" alwaysOpen={false}>
+                        <Accordion.Item eventKey="1" className='my-3'>
+                            <Accordion.Header><div><b>Add Questions</b></div></Accordion.Header>
+                            <Accordion.Body>
+                                <span><b>Select Quiz:</b></span>
+                                <Select
+                                    className='col-5'
+                                    defaultValue={select}
+                                    onChange={setSelect}
+                                    options={listQuiz}
+                                />
+                                <hr />
+                                {questions && questions.length > 0 && questions.map((item, index) => {
+                                    return (
+                                        <>
+                                            <div className='q-main my-3' key={item.id}>
+                                                <div className='questions mb-1'>
+                                                    <div className="form-floating col-md-5 mb-2">
+                                                        <input type="text"
+                                                            className={item.isValidQuestions ? 'form-control is-invalid' : 'form-control'}
+                                                            placeholder="Description"
+                                                            value={item.description}
 
-                                                                onChange={(e) => handleOnChange('QUESTION', item.id, e.target.value)}
-                                                            />
-                                                            <label>Question {index + 1} Description...</label>
-                                                        </div>
+                                                            onChange={(e) => handleOnChange('QUESTION', item.id, e.target.value)}
+                                                        />
+                                                        <label>Question {index + 1} Description...</label>
+                                                    </div>
 
-                                                        <div className='form-group file col-md-4'>
-                                                            <label className='upload-file' htmlFor={`${item.id}`}><BiImageAdd size={'2em'} color={'aqua'} />Upload file</label>
-                                                            <input type='file' hidden id={`${item.id}`}
-                                                                onChange={(e) => handleUploadFile(item.id, e)} />
-                                                        </div>
-                                                        <div className='preview col-md-2'>
-                                                            <div className='preview-file'>
-                                                                <span>
-                                                                    {item.fileName ? item.fileName : 'no file is uploadded'}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div className='icons'>
-                                                            <AiOutlinePlusCircle className='add'
-                                                                onClick={() => handleAddRemoveQuestion('ADD', '')}
-                                                            />
-                                                            {questions.length > 1 &&
-                                                                <AiOutlineMinusCircle
-                                                                    className='remove'
-                                                                    onClick={() => handleAddRemoveQuestion('REMOVE', item.id)}
-                                                                />
-                                                            }
+                                                    <div className='form-group file col-md-4'>
+                                                        <label className='upload-file' htmlFor={`${item.id}`}><BiImageAdd size={'2em'} color={'aqua'} />Upload file</label>
+                                                        <input type='file' hidden id={`${item.id}`}
+                                                            onChange={(e) => handleUploadFile(item.id, e)} />
+                                                    </div>
+                                                    <div className='preview col-md-2'>
+                                                        <div className='preview-file'>
+                                                            <span>
+                                                                {item.imageName ? item.imageName : 'no file is uploadded'}
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                    {item.answers && item.answers.length > 0 && item.answers.map((answer, index) => {
-                                                        return (
-                                                            <div className='answers my-2' key={answer.id}>
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    defaultChecked={answer.isCorrect}
-                                                                    onChange={(e) => handleAnswerQuestion('CHECKBOX', item.id, answer.id, e.target.checked)}
-                                                                />
-                                                                <div className="form-floating answer-item">
-                                                                    <input type="text"
-                                                                        className={answer.isValidAnswer ? 'form-control' : 'form-control is-invalid'}
-                                                                        placeholder="Description"
-                                                                        defaultValue={answer.description}
-                                                                        onChange={(e) => handleAnswerQuestion('INPUT', item.id, answer.id, e.target.value)}
-                                                                    />
-                                                                    <label>Answer {index + 1}:</label>
-                                                                </div>
-                                                                <div className='icons'>
-                                                                    <AiOutlinePlusCircle
-                                                                        className='add'
-                                                                        onClick={() => handleAddRomoveAnswer('ADD', item.id, '')}
-                                                                    />
-                                                                    {item.answers.length > 1 &&
-                                                                        < AiOutlineMinusCircle
-                                                                            className='remove'
-                                                                            onClick={() => handleAddRomoveAnswer('REMOVE', item.id, answer.id)}
-                                                                        />
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-                                                <hr />
-                                            </>
-                                        )
-                                    })}
-                                </Accordion.Body>
-                            </Accordion.Item>
-
-                        </Accordion>
-                    </div>
-
-
-
-
-
-                    {/* <div className='mt-3'><b>Add questions:</b></div>
-                    {questions && questions.length > 0 && questions.map((item, index) => {
-                        return (
-                            <>
-                                <div className='q-main my-3' key={item.id}>
-                                    <div className='questions mb-1'>
-                                        <div className="form-floating col-md-5 mb-2">
-                                            <input type="text"
-                                                className={item.isValidQuestions ? 'form-control' : 'form-control is-invalid'}
-                                                placeholder="Description"
-                                                value={item.description}
-
-                                                onChange={(e) => handleOnChange('QUESTION', item.id, e.target.value)}
-                                            />
-                                            <label>Question {index + 1} Description...</label>
-                                        </div>
-
-                                        <div className='form-group file col-md-4'>
-                                            <label className='upload-file' htmlFor={`${item.id}`}><BiImageAdd size={'2em'} color={'aqua'} />Upload file</label>
-                                            <input type='file' hidden id={`${item.id}`}
-                                                onChange={(e) => handleUploadFile(item.id, e)} />
-                                        </div>
-                                        <div className='preview col-md-2'>
-                                            <div className='preview-file'>
-                                                <span>
-                                                    {item.fileName ? item.fileName : 'no file is uploadded'}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className='icons'>
-                                            <AiOutlinePlusCircle className='add'
-                                                onClick={() => handleAddRemoveQuestion('ADD', '')}
-                                            />
-                                            {questions.length > 1 &&
-                                                <AiOutlineMinusCircle
-                                                    className='remove'
-                                                    onClick={() => handleAddRemoveQuestion('REMOVE', item.id)}
-                                                />
-                                            }
-                                        </div>
-                                    </div>
-                                    {item.answers && item.answers.length > 0 && item.answers.map((answer, index) => {
-                                        return (
-                                            <div className='answers my-2' key={answer.id}>
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    defaultChecked={answer.isCorrect}
-                                                    onChange={(e) => handleAnswerQuestion('CHECKBOX', item.id, answer.id, e.target.checked)}
-                                                />
-                                                <div className="form-floating answer-item">
-                                                    <input type="text"
-                                                        className={answer.isValidAnswer ? 'form-control' : 'form-control is-invalid'}
-                                                        placeholder="Description"
-                                                        defaultValue={answer.description}
-                                                        onChange={(e) => handleAnswerQuestion('INPUT', item.id, answer.id, e.target.value)}
-                                                    />
-                                                    <label>Answer {index + 1}:</label>
-                                                </div>
-                                                <div className='icons'>
-                                                    <AiOutlinePlusCircle
-                                                        className='add'
-                                                        onClick={() => handleAddRomoveAnswer('ADD', item.id, '')}
-                                                    />
-                                                    {item.answers.length > 1 &&
-                                                        < AiOutlineMinusCircle
-                                                            className='remove'
-                                                            onClick={() => handleAddRomoveAnswer('REMOVE', item.id, answer.id)}
+                                                    <div className='icons'>
+                                                        <AiOutlinePlusCircle className='add'
+                                                            onClick={() => handleAddRemoveQuestion('ADD', '')}
                                                         />
-                                                    }
+                                                        {questions.length > 1 &&
+                                                            <AiOutlineMinusCircle
+                                                                className='remove'
+                                                                onClick={() => handleAddRemoveQuestion('REMOVE', item.id)}
+                                                            />
+                                                        }
+                                                    </div>
                                                 </div>
+                                                {item.answers && item.answers.length > 0 && item.answers.map((answer, index) => {
+                                                    return (
+                                                        <div className='answers my-2' key={answer.id}>
+                                                            <input
+                                                                className="form-check-input"
+                                                                type="checkbox"
+                                                                defaultChecked={answer.isCorrect}
+                                                                onChange={(e) => handleAnswerQuestion('CHECKBOX', item.id, answer.id, e.target.checked)}
+                                                            />
+                                                            <div className="form-floating answer-item">
+                                                                <input type="text"
+                                                                    className={answer.isValidAnswer ? 'form-control  is-invalid' : 'form-control'}
+                                                                    placeholder="Description"
+                                                                    defaultValue={answer.description}
+                                                                    onChange={(e) => handleAnswerQuestion('INPUT', item.id, answer.id, e.target.value)}
+                                                                />
+                                                                <label>Answer {index + 1}:</label>
+                                                            </div>
+                                                            <div className='icons'>
+                                                                <AiOutlinePlusCircle
+                                                                    className='add'
+                                                                    onClick={() => handleAddRomoveAnswer('ADD', item.id, '')}
+                                                                />
+                                                                {item.answers.length > 1 &&
+                                                                    < AiOutlineMinusCircle
+                                                                        className='remove'
+                                                                        onClick={() => handleAddRomoveAnswer('REMOVE', item.id, answer.id)}
+                                                                    />
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
-                                        )
-                                    })}
-                                </div>
-                                <hr />
-                            </>
-                        )
-                    })} */}
+                                            <hr />
+                                        </>
+                                    )
+                                })}
+                                <button className='btn btn-primary' onClick={() => handleSubmit()}>Create question</button>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
                 </div>
-
             </div>
-
-            <button className='btn btn-primary' onClick={() => handleSubmit()}>Create question</button>
+            <div className='update-qa-quiz'>
+                <UpdateQuiz />
+            </div>
+            <div className='assign'>
+                <Assign />
+            </div>
         </div>
     )
 }

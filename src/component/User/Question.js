@@ -14,6 +14,7 @@ const Question = (props) => {
         // console.log(e.target.checked);
         // console.log('check data: ', data, aId, qId);
     }
+    console.log('data', data);
     return (
         <>
             <div className="image">

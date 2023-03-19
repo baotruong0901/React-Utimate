@@ -35,29 +35,32 @@ const ListQuiz = (props) => {
     }
 
 
-
+    console.log('listQuiz: ', listQuiz);
     return (
         <div className='list-quiz-container container'>
             {listQuiz && listQuiz.length > 0 &&
                 listQuiz.map((item, index) => {
                     return (
-                        <div className="card" style={{ width: "18rem" }} key={`${index}-quiz`}>
-                            <img src={`data:image/jpeg;base64,${item.image}`} className="card-img-top" alt="..." />
-                            <div className="card-body">
-                                <h5 className="card-title">Quiz {index + 1}</h5>
-                                <p className="card-text">{item.description}</p>
-                                <button className="btn btn-primary"
-                                    onClick={() => navigate(`/quiz/${item.id}`, { state: { description: item.description } })}>
-                                    Start now
-                                </button>
+                        <>
+                            <div className="card" key={`${index}-quiz`}>
+                                <img src={`data:image/jpeg;base64,${item.image}`} className="card-img-top" alt="..." />
+                                <div className="card-body">
+                                    <h5 className="card-title">Quiz {index + 1}</h5>
+                                    <p className="card-text">{item.description}</p>
+                                    <button className="btn btn-primary"
+                                        onClick={() => navigate(`/quiz/${item.id}`, { state: { description: item.description } })}>
+                                        Start now
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                            {
+                                listQuiz && listQuiz.length === 0 &&
+                                <div>You don't have any quiz now...</div>
+                            }
+
+                        </>
                     )
-                })
-            }
-            {listQuiz && listQuiz.length === 0 &&
-                <div>You don't have any quiz now...</div>
-            }
+                })}
         </div>
     )
 }
