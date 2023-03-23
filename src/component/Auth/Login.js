@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../store/action/userActions';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import NProgress from "nprogress";
+import Language from '../Header/Language';
 NProgress.configure({
     showSpinner: false,
     trickleSpeed: 50,
@@ -43,6 +44,7 @@ const Login = (props) => {
         else if (data && data.EC !== 0) {
             setIsLoading(false)
             toast.error(data.EM)
+            NProgress.done()
 
         }
     }
@@ -69,6 +71,7 @@ const Login = (props) => {
             <div className='header'>
                 <span>Don't have an account yet?</span>
                 <button onClick={(e) => handleClickRegister()}>Sign up</button>
+                <Language />
             </div>
             <div className='title'>
                 <span>Login</span>

@@ -3,12 +3,7 @@ import { getQuizByUser } from '../../services/apiService'
 import { useNavigate } from 'react-router-dom'
 import './ListQuiz.scss'
 import { useSelector } from 'react-redux'
-import NProgress from "nprogress";
-NProgress.configure({
-    showSpinner: false,
-    trickleSpeed: 50,
 
-})
 const ListQuiz = (props) => {
     const [listQuiz, setListQuiz] = useState()
     const isLogin = useSelector(state => state.user.isLogin)
@@ -25,17 +20,9 @@ const ListQuiz = (props) => {
             if (data && data.EC === 0) {
                 setListQuiz(data.DT)
             }
-        } else {
-            NProgress.start()
-            setTimeout(() => {
-                navigate('/login')
-                NProgress.done()
-            }, 1000)
         }
     }
 
-
-    console.log('listQuiz: ', listQuiz);
     return (
         <div className='list-quiz-container container'>
             {listQuiz && listQuiz.length > 0 &&

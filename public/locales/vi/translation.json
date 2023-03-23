@@ -1,0 +1,17 @@
+{
+    "homepage": {
+        "content-header": "Có một cách tốt hơn để hỏi",
+        "content-text": "Bạn không muốn làm một hình thức nhàm chán. Và khán giả của bạn sẽ không trả lời một. Thay vào đó, hãy tạo một kiểu chữ - và khiến mọi người hài lòng.",
+        "button": {
+            "doing": "Làm bây giờ",
+            "login": "Hãy bắt đầu. Nó miễn phí"
+        }
+    },
+    "header": {
+        "Home": "Trang chủ",
+        "Users": "Người dùng",
+        "Admins": "Quản trị viên",
+        "Login": "Đăng nhập",
+        "Register": "Đăng ký"
+    }
+}

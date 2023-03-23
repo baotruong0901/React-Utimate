@@ -15,7 +15,7 @@
             padding: 0px 10px;
             border-radius: 5px;
             border: 1px solid #d3d3d3;
-            margin-left: 10px;
+            margin: 0 10px;
             cursor: pointer;
             &:hover{
                 background-color: #dedede;
@@ -37,6 +37,9 @@
         border-radius: 15px!important;
         background: white;
         box-shadow: 1px 1px 8px 1px rgba(#000, 0.2);
+        .in-isvalid{
+            box-shadow: none;
+        }
         .form-input-password{
             position: relative;
             span{
@@ -88,7 +91,7 @@
         border: none;
         border-radius: 0px;
         box-shadow: none;
-        border-bottom:2px solid rgba(grey, 0.2) ;
+        border-bottom:2px solid rgba(grey, 0.2);
         font-size: 18px;
         &::placeholder{
             color:rgba(grey, 0.7) ;

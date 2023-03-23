@@ -35,6 +35,8 @@ const DetailQuiz = (props) => {
                     item.answers.isSelected = false
                     answers.push(item.answers)
                 })
+
+                answers = _.orderBy(answers, ['id'], ['asc'])
                 return {
                     questionId: key,
                     answers,
@@ -115,8 +117,7 @@ const DetailQuiz = (props) => {
         }
     }
 
-    console.log('arrQuestion', arrQuestion);
-    console.log('location', location);
+
     return (
         <div className="detail-quiz-container container">
             <div className="left-content" >
@@ -147,7 +148,11 @@ const DetailQuiz = (props) => {
                 </div>
             </div>
             <div className="right-content">
-                <BoxCountDown />
+                <BoxCountDown
+                    handleSubmit={handleSubmit}
+                    arrQuestion={arrQuestion}
+                    setQuestionIndex={setQuestionIndex}
+                />
             </div>
             <ModalResutl
                 show={showModalResult}

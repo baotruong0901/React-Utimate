@@ -8,6 +8,9 @@ import './Header.scss'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/action/userActions';
+import { postLogout } from '../../services/apiService';
+import Language from './Language';
+import { useTranslation, Trans } from 'react-i18next';
 import NProgress from "nprogress";
 NProgress.configure({
     showSpinner: false,
@@ -19,6 +22,8 @@ const Header = () => {
     const isLogin = useSelector(state => state.user.isLogin)
     const userInfo = useSelector(state => state.user.userInfo)
     const dispatch = useDispatch()
+    const { t } = useTranslation();
+
     const handleLogin = () => {
         NProgress.start();
         setTimeout(() => {
@@ -35,31 +40,40 @@ const Header = () => {
         }, 3000)
     }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         NProgress.start();
-        setTimeout(() => {
-            navigate('/login')
+        let data = await postLogout(userInfo.email, userInfo.refresh_token)
+        console.log('data', data);
+        if (data && data.EC === 0) {
+            //clear data redux
             dispatch(logout())
+            navigate('/login')
+
             NProgress.done();
-        }, 3000)
+        }
+
+
+
+
+
 
     }
     return (
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand><NavLink className='nav-link' to="/">Brand</NavLink></Navbar.Brand>
+                <Navbar.Brand><NavLink className='nav-link' to="/">Quizz</NavLink></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <NavLink className='nav-link' to="/">Home</NavLink>
-                        <NavLink className='nav-link' to="users">Users</NavLink>
-                        <NavLink className='nav-link' to="admins">Admins</NavLink>
+                        <NavLink className='nav-link' to="/">{t('header.Home')}</NavLink>
+                        <NavLink className='nav-link' to="users">{t('header.Users')}</NavLink>
+                        <NavLink className='nav-link' to="admins">{t('header.Admins')}</NavLink>
                     </Nav>
                     <Nav>
                         {isLogin === false ?
                             <>
-                                <Button className='btn-login' onClick={() => handleLogin()}>Log in</Button>
-                                <Button className='btn-signup' onClick={() => handleRegister()}>Sign up</Button>
+                                <Button className='btn-login' onClick={() => handleLogin()}>{t('header.Login')}</Button>
+                                <Button className='btn-signup' onClick={() => handleRegister()}>{t('header.Register')}</Button>
                             </>
                             :
                             <NavDropdown title="Settings" id="basic-nav-dropdown">
@@ -67,6 +81,7 @@ const Header = () => {
                                 <NavDropdown.Item>Profile</NavDropdown.Item>
                             </NavDropdown>
                         }
+                        <Language />
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -20,5 +20,16 @@
         border: 1px solid #d3d3d3;
         cursor: pointer;
         padding: 0 15px;
+        &:hover{
+            color: blue;
+        }
+    }
+    .selected{
+        border: 1px solid grey;
+        background-color: #dedede;
+    }
+    .clicked{
+        border: 1px solid blue;
+        color: blue;
     }
 }

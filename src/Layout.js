@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { Suspense } from 'react';
 import Admin from './component/Admin/Admin';
 import HomePage from './component/Home/HomePage';
 import ManageUser from './component/Admin/Content/ManageUser';
@@ -13,6 +13,7 @@ import ListQuiz from './component/User/ListQuiz';
 import DetailQuiz from './component/User/DetailQuiz';
 import ManageQuiz from './component/Admin/Content/ManageQuiz';
 import ManageQuetions from './component/Admin/Content/ManageQuestions';
+import PrivateRoute from './routes/PrivateRoute';
 const NotFound = () => {
     return (
         <div className='container mt-3 alert alert-danger'>
@@ -22,13 +23,21 @@ const NotFound = () => {
 }
 const Layout = (props) => {
     return (
-        <>
+        <Suspense fallback={<div>Loading</div>}>
             <Routes>
                 <Route path='/' element={<App />}>
                     <Route index element={<HomePage />} />
-                    <Route path='users' element={<ListQuiz />} />
+                    <Route path='users' element={
+                        <PrivateRoute>
+                            <ListQuiz />
+                        </PrivateRoute>
+                    } />
                 </Route>
-                <Route path='/admins' element={<Admin />}>
+                <Route path='/admins' element={
+                    <PrivateRoute>
+                        <Admin />
+                    </PrivateRoute>
+                }>
                     <Route index element={<DashBoard />} />
                     <Route path='manage-user' element={<ManageUser />} />
                     <Route path='manage-quizzes' element={<ManageQuiz />} />
@@ -43,7 +52,7 @@ const Layout = (props) => {
 
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -53,7 +62,7 @@ const Layout = (props) => {
                 pauseOnHover
                 theme="colored"
             />
-        </>
+        </Suspense>
     )
 }
 export default Layout

@@ -1,0 +1,17 @@
+{
+    "homepage": {
+        "content-header": "There's a better way to ask",
+        "content-text": "You don't want to make a boring form. And your audience won't answer one. Create a typeform instead - and make everyone happy.",
+        "button": {
+            "doing": "Doing now",
+            "login": "Get's start. it's free"
+        }
+    },
+    "header": {
+        "Home": "Home",
+        "Users": "Users",
+        "Admins": "Admins",
+        "Login": "Log in",
+        "Register": "Sign up"
+    }
+}

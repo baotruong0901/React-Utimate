@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify'
 import { postRegister } from '../../services/apiService'
 import NProgress from "nprogress";
+import Language from '../Header/Language';
 NProgress.configure({
     showSpinner: false,
     trickleSpeed: 50,
@@ -94,6 +95,7 @@ const Register = (props) => {
             <div className='header'>
                 <span>Alredy have an account?</span>
                 <button onClick={(e) => handleClickLogin()}>Log in</button>
+                <Language />
             </div>
             <div className='title'>
                 <span>Register</span>

@@ -8,3 +8,9 @@ button{
 .app-content{
     height: calc(100vh - 80px);
 }
+.languages{
+    // width:10px;
+        .dropdown-toggle::after{
+            display: none!important;
+        }
+    }
