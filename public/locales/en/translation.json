@@ -12,6 +12,30 @@
         "Users": "Users",
         "Admins": "Admins",
         "Login": "Log in",
-        "Register": "Sign up"
+        "Register": "Sign up",
+        "Settings": "Settings",
+        "Profile": "My profile",
+        "Log_out": "Log out"
+    },
+    "Login": {
+        "Account": "Don't have an account yet?",
+        "Register": "Sign up",
+        "Login": "Login",
+        "Email": "Enter your email",
+        "Password": "Enter your password",
+        "Forgot_password": "Forgot your password?",
+        "Login_with": "Or login with:",
+        "Back_home": "Go to home"
+    },
+    "Register": {
+        "Account": "Do you already have an account?",
+        "Register": "Register",
+        "Login": "Log in",
+        "Email": "Enter your email",
+        "Password": "Enter your password",
+        "Your_name": "Enter your name",
+        "Name": "Your name",
+        "Create": "Create my free account",
+        "Back_home": "Go to home"
     }
 }

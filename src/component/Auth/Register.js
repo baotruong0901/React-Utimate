@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { postRegister } from '../../services/apiService'
 import NProgress from "nprogress";
 import Language from '../Header/Language';
+import { useTranslation, Trans } from 'react-i18next';
 NProgress.configure({
     showSpinner: false,
     trickleSpeed: 50,
@@ -20,6 +21,7 @@ const Register = (props) => {
     const [username, setUserName] = useState("")
 
     const navigate = useNavigate()
+    const { t } = useTranslation();
 
     const handleShowHidePassword = () => {
         setIsShowPassword(!isShowPassword)
@@ -93,12 +95,12 @@ const Register = (props) => {
     return (
         <div className='register-container'>
             <div className='header'>
-                <span>Alredy have an account?</span>
-                <button onClick={(e) => handleClickLogin()}>Log in</button>
+                <span>{t('Register.Account')}</span>
+                <button onClick={(e) => handleClickLogin()}>{t('Register.Login')}</button>
                 <Language />
             </div>
             <div className='title'>
-                <span>Register</span>
+                <span>{t('Register.Register')}</span>
             </div>
             <div className='form'>
                 <Form
@@ -110,7 +112,7 @@ const Register = (props) => {
                         <Form.Control
                             className="input"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder={t('Register.Email')}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         ></Form.Control>
@@ -120,7 +122,7 @@ const Register = (props) => {
                         <Form.Control
                             className="input"
                             type={isShowPassword ? "text" : "password"}
-                            placeholder="Enter your password"
+                            placeholder={t('Register.Password')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         ></Form.Control>
@@ -135,11 +137,11 @@ const Register = (props) => {
                         </span>
                     </Form.Group>
                     <Form.Group className="col-12 mb-4">
-                        <Form.Label className="label">Your name</Form.Label>
+                        <Form.Label className="label">{t('Register.Name')}</Form.Label>
                         <Form.Control
                             className="input"
                             type="text"
-                            placeholder="Enter your name"
+                            placeholder={t('Register.Your_name')}
                             value={username}
                             onChange={(e) => setUserName(e.target.value)}
                         ></Form.Control>
@@ -148,14 +150,14 @@ const Register = (props) => {
                         className="btn-submit mb-2 col-12"
                         onClick={() => handleSubmit()}
                     >
-                        Create my free account
+                        {t('Register.Create')}
                     </Button>
                 </Form>
             </div>
 
             <div className='text-center back-home'
                 onClick={() => navigate("/")}>
-                &#60;&#60; go to home
+                &#60;&#60;{t('Register.Back_home')}
             </div>
         </div>
     )

@@ -154,7 +154,8 @@ const ModalManageQuiz = (props) => {
                         {showModalUpdate === true ? 'Update' : 'Create'}
                     </Button>
                 </Modal.Footer>
-            </Modal></>
+            </Modal>
+        </>
     )
 }
 export default ModalManageQuiz

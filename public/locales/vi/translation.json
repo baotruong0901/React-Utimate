@@ -12,6 +12,30 @@
         "Users": "Người dùng",
         "Admins": "Quản trị viên",
         "Login": "Đăng nhập",
-        "Register": "Đăng ký"
+        "Register": "Đăng ký",
+        "Settings": "Cài đặt",
+        "Profile": "Hồ sơ của tôi",
+        "Log_out": "Đăng xuất"
+    },
+    "Login": {
+        "Account": "Vẫn chưa có tài khoản?",
+        "Register": "Đăng kí",
+        "Login": "Đăng nhập",
+        "Email": "Nhập email",
+        "Password": "Nhập mật khẩu",
+        "Forgot_password": "Quên mật khẩu?",
+        "Login_with": "Hoặc đăng nhập với:",
+        "Back_home": "Quay lại trang chủ"
+    },
+    "Register": {
+        "Account": "Bạn đã có tài khoản?",
+        "Register": "Đăng kí",
+        "Login": "Đăng nhập",
+        "Email": "Nhập email",
+        "Password": "Nhập mật khẩu",
+        "Your_name": "Nhập tên của bạn",
+        "Name": "Tên của bạn",
+        "Create": "Tạo tài khoản miễn phí",
+        "Back_home": "Quay lại trang chủ"
     }
 }

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams, useLocation } from "react-router-dom"
 import { getQuestionData, postSubmitAnswers } from "../../services/apiService"
-import _ from "lodash"
+import { NavLink } from 'react-router-dom';
 import Question from "./Question"
-import './DetailQuiz.scss'
 import ModalResutl from "../Admin/Modal/ModalResutl"
 import BoxCountDown from "./BoxCountDown"
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import _ from "lodash"
+import './DetailQuiz.scss'
+
 const DetailQuiz = (props) => {
     const [arrQuestion, setArrQuestion] = useState([])
     const [questionIndex, setQuestionIndex] = useState(0)
@@ -119,47 +122,55 @@ const DetailQuiz = (props) => {
 
 
     return (
-        <div className="detail-quiz-container container">
-            <div className="left-content" >
-                <div className='title'>
-                    <span>Quiz {quizId}: {location && location?.state?.description}</span>
+        <>
+            <Breadcrumb className='container new-header'>
+                <NavLink to="/" className="breadcrumb-item">Home</NavLink>
+                <NavLink to="/users" className="breadcrumb-item">Users</NavLink>
+                <Breadcrumb.Item active>Quiz</Breadcrumb.Item>
+            </Breadcrumb>
+
+            <div className="detail-quiz-container container">
+                <div className="left-content" >
+                    <div className='title'>
+                        <span>Quiz {quizId}: {location && location?.state?.description}</span>
+                    </div>
+                    <hr />
+                    <div className="q-content">
+                        <Question
+                            data={arrQuestion && arrQuestion.length > 0
+                                ?
+                                arrQuestion[questionIndex]
+                                : []
+                            }
+                            index={questionIndex}
+                            handleCheckBox={handleCheckBox}
+                        />
+                    </div>
+                    <div className="q-footer">
+                        <button className="button" onClick={() => handleBack()}>Back</button>
+                        <button
+                            className="button"
+                            onClick={() => handleNext()}
+                        >
+                            Next
+                        </button>
+                        <button className="btn btn-primary" onClick={() => handleSubmit()}>Finish</button>
+                    </div>
                 </div>
-                <hr />
-                <div className="q-content">
-                    <Question
-                        data={arrQuestion && arrQuestion.length > 0
-                            ?
-                            arrQuestion[questionIndex]
-                            : []
-                        }
-                        index={questionIndex}
-                        handleCheckBox={handleCheckBox}
+                <div className="right-content">
+                    <BoxCountDown
+                        handleSubmit={handleSubmit}
+                        arrQuestion={arrQuestion}
+                        setQuestionIndex={setQuestionIndex}
                     />
                 </div>
-                <div className="q-footer">
-                    <button className="button" onClick={() => handleBack()}>Back</button>
-                    <button
-                        className="button"
-                        onClick={() => handleNext()}
-                    >
-                        Next
-                    </button>
-                    <button className="btn btn-primary" onClick={() => handleSubmit()}>Finish</button>
-                </div>
-            </div>
-            <div className="right-content">
-                <BoxCountDown
-                    handleSubmit={handleSubmit}
-                    arrQuestion={arrQuestion}
-                    setQuestionIndex={setQuestionIndex}
+                <ModalResutl
+                    show={showModalResult}
+                    setShow={setShowModalResult}
+                    dataModalResult={dataModalResult}
                 />
             </div>
-            <ModalResutl
-                show={showModalResult}
-                setShow={setShowModalResult}
-                dataModalResult={dataModalResult}
-            />
-        </div>
+        </>
     )
 }
 

@@ -5,6 +5,9 @@ button{
     outline: none;
     border: none;
 }
+a{
+    text-decoration: none!important;
+}
 .app-content{
     height: calc(100vh - 80px);
 }
@@ -14,3 +17,7 @@ button{
             display: none!important;
         }
     }
+.new-header{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
